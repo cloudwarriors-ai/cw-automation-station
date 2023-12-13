@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class="dark">
+<head>
+    <title>Cloud Warriors Automation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white">
+    <h1 class="text-3xl font-bold mt-8 mb-4">Cloud warriors automation station</h1>
+    <br><br>
+    
+    <h1 class="text-3xl font-bold mb-4">Zoom Server-Server OAUTH INFO</h1>
+    <form method="POST" action="{{ url_for('update_zoom_oauth') }}" enctype="multipart/form-data">
+        <div class="mb-4">
+            <label for="zoomclientId" class="block">zoomclientId:</label>
+            <input type="text" name="zoomclientId" id="zoomclientId" value="{{ zoomclientId }}" class="bg-gray-800 text-white rounded-md p-2">
+        </div>
+        <div class="mb-4">
+            <label for="zoomclientSecret" class="block">zoomclientSecret:</label>
+            <input type="text" name="zoomclientSecret" id="zoomclientSecret" value="{{ zoomclientSecret }}" class="bg-gray-800 text-white rounded-md p-2">
+        </div>
+        <div class="mb-4">
+            <label for="zoomaccountId" class="block">zoomaccountId:</label>
+            <input type="text" name="zoomaccountId" id="zoomaccountId" value="{{ zoomaccountId }}" class="bg-gray-800 text-white rounded-md p-2">
+        </div>
+        <input type="submit" value="submit" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2">
+    </form>
+
+    <h1 class="text-3xl font-bold mt-8 mb-4">Create Call Queues</h1>
+    <form method="POST" action="{{ url_for('create_call_queue') }}" enctype="multipart/form-data">
+        <div class="mb-4">
+            <label for="csv_file" class="block">Upload CSV File:</label>
+            <input type="file" name="csv_file" id="csv_file" class="bg-gray-800 text-white rounded-md p-2">
+        </div>
+        <input type="submit" value="Upload" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2">
+    </form>
+
+    <h1 class="text-3xl font-bold mt-8 mb-4">Add Call Queue Members</h1>
+    <form method="POST" action="{{ url_for('add_call_queue_members') }}" enctype="multipart/form-data">
+        <div class="mb-4">
+            <label for="csv_file" class="block">Upload CSV File:</label>
+            <input type="file" name="csv_file" id="csv_file" class="bg-gray-800 text-white rounded-md p-2">
+        </div>
+        <input type="submit" value="Upload" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2">
+    </form>
+
+    <h1 class="text-3xl font-bold mt-8 mb-4">Change Call Queue Manager</h1>
+    <form method="POST" action="{{ url_for('change_call_queue_manager') }}" enctype="multipart/form-data">
+        <div class="mb-4">
+            <label for="csv_file" class="block">Upload CSV File:</label>
+            <input type="file" name="csv_file" id="csv_file" class="bg-gray-800 text-white rounded-md p-2">
+        </div>
+        <input type="submit" value="Upload" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2">
+    </form>
+
+    {% if action_success %}
+    <br>
+    <h1 class="text-3xl font-bold mt-8 mb-4">ADDED!</h1>
+    <p class="text-white">{{output | safe}}</p>
+    {% endif %}
+
+</body>
+</html>
