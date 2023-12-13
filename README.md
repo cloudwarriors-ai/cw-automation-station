@@ -12,6 +12,8 @@ pull the zoomus git repo from here : git clone https://github.com/cloudwarriors-
 
 install the zoomus module from inside the zoom us directory like so : pip install .
 
+install the requirements like so : pip install -r requirements.txt
+
 run the application from the app directory like so: python app.py
 
 
