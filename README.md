@@ -4,9 +4,9 @@ https://developers.zoom.us/docs/internal-apps/create/
 
 once that is done place the following paramaters into the .env
 
-zoomservertoserverClientID=
-zoomservertoserverAccountID=
-zoomservertoserverClientSecret=
+zoomservertoserverClientID=<br />
+zoomservertoserverAccountID=<br />
+zoomservertoserverClientSecret=<br />
 
 pull the zoomus git repo from here : git clone https://github.com/cloudwarriors-ai/zoomus.git
 
