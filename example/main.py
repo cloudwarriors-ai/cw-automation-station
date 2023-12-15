@@ -2,6 +2,7 @@ import os
 import csv
 from zoomus import ZoomClient
 import dotenv
+import json
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -19,9 +20,19 @@ zoomaccountid = os.getenv("zoomservertoserverAccountID")
 
 client = ZoomClient(zoomclientId, zoomclientSecret, zoomaccountid)
 
-call_queues = client.phone.call_queues()
+call_queues_response = client.phone.call_queues()
 
-logger.debug(call_queues.json())
+user_list_response = client.user.list()
+user_list = json.loads(user_list_response.content)
+
+call_queues = json.loads(call_queues_response.content)
+for queue in call_queues['call_queues']:
+    print (queue['id'],queue['name'])
+#logger.debug(call_queues.json())
+
+
+for user in user_list['users']:
+    print (user['id'],user['display_name'])
 
 #logging to stdout
 
