@@ -48,7 +48,16 @@ def call_queue_id(cq_name):
             logging.debug("call queue id is : " + queue['id'])
             return queue['id']
 
+def cc_queue_id(queue_name):
+    client = ZoomClient(zoomclientId, zoomclientSecret, zoomaccountId)
+    call_queues_response = client.contact_center.queues_list()
 
+    call_queues = json.loads(call_queues_response.content)
+    for queue in call_queues['queues']:
+        logging.debug(queue)
+        if queue['queue_name'] == queue_name:
+            logging.debug("CC queue id is : " + queue['queue_id'])
+            return queue['queue_id']
 
 @app.route('/update_zoom_oauth', methods=['GET', 'POST'])
 def update_zoom_oauth():
@@ -203,10 +212,58 @@ def cc_create_call_queue():
         
         if client_request.status_code == 201:
             logger.debug("Queue Created Successfully")
-            
+
             action_success = True
 
     return render_template('index.html', zoomclientId=zoomclientId, zoomclientSecret=zoomclientSecret, zoomaccountId=zoomaccountId, output=output, action_success=action_success)
+
+@app.route('/cc_update_call_queue', methods=['GET', 'POST'])
+def cc_update_call_queue():
+    output = None
+    action_success = False
+    if request.method == 'POST':
+                     
+               
+        file = request.files['csv_file']
+        # Process the CSV file here
+        # You can access the file using file.stream
+
+        # Add your code to process the CSV file
+        csv_data = file.stream.read().decode('utf-8')
+        
+
+        # If you want to use DictReader, you need to convert it to a list first
+        
+        reader = csv.DictReader(csv_data.splitlines())
+        #skip the headers
+        client = ZoomClient(zoomclientId, zoomclientSecret, zoomaccountId)
+        
+        
+      
+        
+        
+        for row in reader:
+            id = cc_queue_id(row['queue_name'])
+            #client.phone.call_queues_create(name=row[0], description=row[1], extension_number=row[2])
+            # Process each row of the CSV file
+            # Example: print(row)
+            #chaeck for blank row[] value, if its not blank use the header as the name in the request like queue_name=row[0]
+
+            params = {k: v for k, v in row.items() if v}
+            params['queue_id'] = id
+            client_request = client.contact_center.queues_update(**params)
+            
+            #output = client_request.json()
+        
+        if client_request.status_code == 204:
+            logger.debug("Queue updated successfully")
+            output = "complete! check the logs for details"
+            action_success = True
+
+    return render_template('index.html', zoomclientId=zoomclientId, zoomclientSecret=zoomclientSecret, zoomaccountId=zoomaccountId, output=output, action_success=action_success)
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
