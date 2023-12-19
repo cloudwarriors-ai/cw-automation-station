@@ -31,8 +31,15 @@ for queue in call_queues['call_queues']:
 #logger.debug(call_queues.json())
 
 
-for user in user_list['users']:
-    print (user['id'],user['display_name'])
+#for user in user_list['users']:
+#    print (user['id'],user['display_name'])
+
+cc_queues_response = client.contact_center.queues_list()
+
+cc_queues = json.loads(cc_queues_response.content)
+
+for queue in cc_queues['queues']:
+    print (queue['queue_id'],queue['queue_name'])
 
 #logging to stdout
 

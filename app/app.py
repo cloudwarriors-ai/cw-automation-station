@@ -174,7 +174,39 @@ def create_call_queue():
                        
 
     return render_template('index.html', zoomclientId=zoomclientId, zoomclientSecret=zoomclientSecret, zoomaccountId=zoomaccountId, output=output, action_success=action_success)
-    
+
+
+@app.route('/cc_create_call_queue', methods=['GET', 'POST'])
+def cc_create_call_queue():
+    output = None
+    action_success = False
+    if request.method == 'POST':
+                     
+               
+        file = request.files['csv_file']
+        # Process the CSV file here
+        # You can access the file using file.stream
+
+        # Add your code to process the CSV file
+        csv_data = file.stream.read().decode('utf-8')
+        reader = csv.reader(csv_data.splitlines())
+        #skip the headers
+        client = ZoomClient(zoomclientId, zoomclientSecret, zoomaccountId)
+        next(reader)
+        for row in reader:
+            #client.phone.call_queues_create(name=row[0], description=row[1], extension_number=row[2])
+            # Process each row of the CSV file
+            # Example: print(row)
+            client_request = client.contact_center.queues_add(queue_name=row[0],queue_description=row[1])
+            
+            output = client_request.json()
+        
+        if client_request.status_code == 201:
+            logger.debug("Queue Created Successfully")
+            
+            action_success = True
+
+    return render_template('index.html', zoomclientId=zoomclientId, zoomclientSecret=zoomclientSecret, zoomaccountId=zoomaccountId, output=output, action_success=action_success)
 
 if __name__ == '__main__':
     app.run(debug=True)

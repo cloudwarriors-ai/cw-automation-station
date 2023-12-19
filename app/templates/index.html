@@ -69,8 +69,18 @@
         <input type="submit" value="Upload" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2">
     </form>
 
-    <h1 class="text-3xl font-bold mt-8 mb-4">Change Call Queue Manager</h1>
+    <h1 class="text-3xl font-bold mt-8 mb-4">Phone Change Call Queue Manager</h1>
     <form method="POST" action="{{ url_for('change_call_queue_manager') }}" enctype="multipart/form-data">
+        <div class="mb-4">
+            <label for="csv_file" class="block">Upload CSV File:</label>
+            <input type="file" name="csv_file" id="csv_file" class="bg-gray-800 text-white rounded-md p-2">
+        </div>
+        <input type="submit" value="Upload" class="bg-blue-500 hover:bg-blue-600 text-white rounded-md px-4 py-2">
+    </form>
+
+
+    <h1 class="text-3xl font-bold mt-8 mb-4">CC Add Call Queue</h1>
+    <form method="POST" action="{{ url_for('cc_create_call_queue') }}" enctype="multipart/form-data">
         <div class="mb-4">
             <label for="csv_file" class="block">Upload CSV File:</label>
             <input type="file" name="csv_file" id="csv_file" class="bg-gray-800 text-white rounded-md p-2">
